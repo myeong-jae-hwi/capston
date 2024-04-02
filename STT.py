@@ -14,10 +14,12 @@ async def listen_and_transcribe():
     r = sr.Recognizer() # 오디오 스트림을 받아들이기 위한 마이크 객체 생성
     with sr.Microphone() as source:# 마이크로부터 오디오 스트림을 받아들이고 실시간으로 인식
         print("음성 입력을 시작하세요...")
+        a=0
         while 1:
             audio_stream = r.listen(source)
             text = await transcribe_audio(r, audio_stream)# 실시간으로 변환된 텍스트 출력
-            print(text)
+            print(a,text)
+            a=a+1
             if '잘가' in text:
                 print("음성 입력을 종료합니다.")
                 break
