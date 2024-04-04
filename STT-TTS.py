@@ -1,5 +1,7 @@
 import asyncio
 import speech_recognition as sr
+import pyttsx3
+
 
 async def transcribe_audio(r, audio_stream):# 음성을 텍스트로 변환하는 함수
     try: # 실시간으로 음성을 텍스트로 변환
@@ -19,10 +21,12 @@ async def main():
             text = await transcribe_audio(r, audio_stream)# 실시간으로 변환된 텍스트 출력
 
             if '미르야'==text and on_off==False: #기기가 미작동일떄 미르를 부르면 작동.
+                engine.say(text)
+                engine.runAndWait()
                 on_off=True
 
             if on_off==True: #기기가 작동중일때
                 print(text)
                 on_off==False #기기가 작동할떄 미작동상태로 만듬.
-
+engine = pyttsx3.init()
 main()
