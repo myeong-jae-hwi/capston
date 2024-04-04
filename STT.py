@@ -10,20 +10,19 @@ async def transcribe_audio(r, audio_stream):# 음성을 텍스트로 변환하�
     except sr.RequestError:
         return "구글 음성 API에 접근할 수 없음"
 
-async def listen_and_transcribe():
+async def main():
+    on_off=False #온오프 스위치, 마이크가 켜져있는데 사용자가 부르지 않으면 작동하지 않게하기 위해서 필요함
     r = sr.Recognizer() # 오디오 스트림을 받아들이기 위한 마이크 객체 생성
     with sr.Microphone() as source:# 마이크로부터 오디오 스트림을 받아들이고 실시간으로 인식
-        print("음성 입력을 시작하세요...")
-        a=0
         while 1:
             audio_stream = r.listen(source)
             text = await transcribe_audio(r, audio_stream)# 실시간으로 변환된 텍스트 출력
-            print(a,text)
-            a=a+1
-            if '잘가' in text:
-                print("음성 입력을 종료합니다.")
-                break
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(listen_and_transcribe())
-loop.close()
+            if '미르야'==text and on_off==False: #기기가 미작동일떄 미르를 부르면 작동.
+                on_off=True
+
+            if on_off==True: #기기가 작동중일때
+                print(text)
+                on_off==False #기기가 작동할떄 미작동상태로 만듬.
+
+main()
