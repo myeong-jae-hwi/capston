@@ -2,7 +2,6 @@ import asyncio
 import speech_recognition as sr
 import pyttsx3
 
-
 async def transcribe_audio(r, audio_stream):# 음성을 텍스트로 변환하는 함수
     try: # 실시간으로 음성을 텍스트로 변환
         text = r.recognize_google(audio_stream, language='ko-KR')
@@ -20,13 +19,14 @@ async def main():
             audio_stream = r.listen(source)
             text = await transcribe_audio(r, audio_stream)# 실시간으로 변환된 텍스트 출력
 
-            if '미르야'==text and on_off==False: #기기가 미작동일떄 미르를 부르면 작동.
+            if '미르야'==text and on_off==False: #기기가 대기 중 미르를 부르면 작동.
+                on_off=True #기기 작동
+
+            if on_off==True: #기기가 작동 중일때
+                print(text)
                 engine.say(text)
                 engine.runAndWait()
-                on_off=True
+                on_off==False #기기 대기
 
-            if on_off==True: #기기가 작동중일때
-                print(text)
-                on_off==False #기기가 작동할떄 미작동상태로 만듬.
 engine = pyttsx3.init()
 main()
