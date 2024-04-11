@@ -4,6 +4,7 @@ import asyncio
 import speech_recognition as sr
 import pyttsx3
 import openai as ai
+from openai import OpenAI
 
 async def transcribe_audio(r, audio_stream):# 음성을 텍스트로 변환하는 함수
     try: # 실시간으로 음성을 텍스트로 변환
@@ -14,9 +15,9 @@ async def transcribe_audio(r, audio_stream):# 음성을 텍스트로 변환하�
     except sr.RequestError:
         return "구글 음성 API에 접근할 수 없음"
 
-load_dotenv()
-
-ai.api= os.getenv('open_ai_key')
+# load_dotenv()
+# api_key= os.getenv('open_ai_key')
+# print(api_key)
 
 client = OpenAI()
 
@@ -38,7 +39,7 @@ for chunk in stream:
     if chunk.choices[0].delta.content is not None:
         print(chunk.choices[0].delta.content, end="")
 
-        
+
 async def main():
     on_off=False #온오프 스위치, 마이크가 켜져있는데 사용자가 부르지 않으면 작동하지 않게하기 위해서 필요함
     r = sr.Recognizer() # 오디오 스트림을 받아들이기 위한 마이크 객체 생성
