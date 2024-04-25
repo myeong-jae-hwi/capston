@@ -64,6 +64,8 @@ with sr.Microphone() as source:
                 engine.runAndWait()
                 on = False
                 break
+            #명재휘 병신 ㅋㅋ
+            
         except:
             print("time out")
         
