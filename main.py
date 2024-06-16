@@ -58,6 +58,9 @@ with sr.Microphone() as source:
                 engine.say(gpt_response)
                 engine.runAndWait()
 
+            if text in '음성을 인식할 수 없음' and on:
+                continue
+
             if text == '잘가' and on:
                 print("GPT 모드 해제")
                 engine.say("GPT 모드가 해제되었습니다.")
